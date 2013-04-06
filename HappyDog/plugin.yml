@@ -1,0 +1,5 @@
+name: HappyDog
+main: com.github.JohnGuru.HappyDog.HappyDog
+version: 0.1
+description: Repair your angry dogs 
+author: JohnGuru

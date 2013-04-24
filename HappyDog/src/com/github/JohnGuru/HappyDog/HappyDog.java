@@ -13,9 +13,18 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class HappyDog extends JavaPlugin {
+	public static Material wand;
 
 	@Override
     public void onEnable(){
+		// process the configuration parameters
+		String mat = getConfig().getString("wand", "arrow");
+		wand = Material.matchMaterial(mat);
+		if (wand == null) {
+			getLogger().warning("Wand: material " + mat + " unrecognized");
+			wand = Material.ARROW; // set default
+		}
+		getLogger().info("Wand material is " + wand);
 		// Register the listener
 		getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
     }
@@ -24,6 +33,7 @@ public final class HappyDog extends JavaPlugin {
     public void onDisable() {
         // Unregister this plugin's event handlers
     	HandlerList.unregisterAll(this);
+    	saveConfig();
     }
 
     public final class PlayerInteractListener implements Listener {
@@ -35,7 +45,7 @@ public final class HappyDog extends JavaPlugin {
     		if (theAnimal.getType() == EntityType.WOLF) {
     			Wolf dog = (Wolf)theAnimal;
     			Player p = ev.getPlayer();
-    			if (p.getItemInHand().getType() != Material.ARROW)
+    			if (p.getItemInHand().getType() != wand)
     				// Not the key wand to make a dog un-angry
     				return;
     			if (dog.getOwner() == null) {

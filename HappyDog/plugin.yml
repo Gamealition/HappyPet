@@ -1,5 +1,12 @@
 name: HappyDog
 main: com.github.JohnGuru.HappyDog.HappyDog
-version: 0.2
-description: Repair your angry dogs 
+version: 1.0
+description: Modify Animal Properties 
 author: JohnGuru
+commands:
+  hdowner:
+    description: updates the Tameable's owner
+    usage: /<command> <playername>
+  hdfree:
+    description: resets the Tameable to unowned/wild condition
+    usage: /<command>

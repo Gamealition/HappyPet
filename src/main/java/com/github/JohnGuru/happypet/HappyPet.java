@@ -6,138 +6,66 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.List;
-
 public final class HappyPet extends JavaPlugin
 {
-    public static Material wand;
-    static final String admin = "animalhelper.admin";
-    static final String key = "animalhelper";
+    public static Material cfgWand;
+    public static boolean  cfgIgnoreHorses;
+
+    HPPlayerInteractListener listener;
 
     @Override
     public void onEnable()
     {
         saveDefaultConfig();
+        reloadConfig();
 
         String mat = getConfig().getString("wand", "bone");
-        wand = Material.matchMaterial(mat);
-        if (wand == null)
+        cfgWand    = Material.matchMaterial(mat);
+        if (cfgWand == null)
         {
-            getLogger().warning("Wand: material " + mat + " unrecognized");
-            wand = Material.BONE; // set default
+            getLogger().warning("Wand material " + mat + " unrecognized");
+            cfgWand = Material.BONE; // set default
         }
-        getLogger().info("Wand material is " + wand);
-        // Register the listener
-        getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
+        getLogger().info("Wand material is " + cfgWand);
+
+        cfgIgnoreHorses = getConfig().getBoolean("ignoreHorses", false);
+
+        listener = new HPPlayerInteractListener(this);
+        getServer().getPluginManager().registerEvents(listener, this);
     }
 
     @Override
     public void onDisable()
     {
-        // Unregister this plugin's event handlers
         HandlerList.unregisterAll(this);
-        saveConfig();
+        listener = null;
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        // Add more commands here
-        if (cmd.getName().equalsIgnoreCase("hdowner"))
+        if (args.length < 1)
+            return false;
+
+        switch ( args[0].toLowerCase() )
         {
-            if (!(sender instanceof Player))
-            {
-                sender.sendMessage("This command cannot be run from the console.");
-                return true;
-            }
-            if (args.length == 1)
-            {
-                setOwner((Player) sender, args[0]);
-                return true;
-            }
+            case "owner":
+                onCommandOwner(sender, args); break;
+            case "free":
+                onCommandFree(sender, args); break;
+            case "wand":
+                onCommandWand(sender, args); break;
+            case "reload":
+                onCommandReload(sender, args); break;
         }
-        if (cmd.getName().equalsIgnoreCase("hdfree"))
-        {
-            if (!(sender instanceof Player))
-            {
-                sender.sendMessage("This command cannot be run from the console.");
-            }
-            else if (args.length == 0) resetOwner((Player) sender);
-            return true;
-        }
-        return false;
+
+        return true;
     }
 
-
-    /*
-     * Here is the core that actually identifies and updates the animal
-     */
-    public final class PlayerInteractListener implements Listener
-    {
-
-        @EventHandler
-        public void OnPlayerInteract(PlayerInteractEntityEvent ev)
-        {
-            // Analyze the event
-            Entity animal = ev.getRightClicked();
-            Player p = ev.getPlayer();
-            if (p.getItemInHand().getType() != wand)
-                // Not the wand to edit an animal
-                return;
-            List<MetadataValue> meta = p.getMetadata(key);
-            if (!meta.isEmpty())
-            {
-                String giveto = meta.get(0).asString();
-                Plugin plug = meta.get(0).getOwningPlugin();
-                reassign(p, animal, giveto, plug);
-                p.removeMetadata(key, plug);
-            }
-            else switch (animal.getType())
-            {
-                case WOLF:
-                    handleAngry(p, animal);
-                    handleCart(p, animal);
-                    handleTameableHealth(p, animal);
-                    break;
-                case OCELOT:
-                case HORSE:
-                    handleCart(p, animal);
-                    handleTameableHealth(p, animal);
-                    break;
-                case CHICKEN:
-                case SHEEP:
-                case COW:
-                case PIG:
-                case MUSHROOM_COW:
-                    handleCart(p, animal);
-                    handleHealth(p, animal);
-                    break;
-                default:
-                    p.sendMessage("This is not a valid animal type. Try again.");
-                    break;
-            }
-            // ev.setCancelled(true);
-        }
-    }
-
-    /*
-     * ***************************************************************************
-     * 
-     * These functions are called from the command handler before clicking on the animal
-     * 
-     * ***************************************************************************
-     */
-    /*
-     * Request owner change
-     */
     private void setOwner(Player requestor, String newowner)
     {
         if (!requestor.hasPermission(admin))
@@ -157,22 +85,11 @@ public final class HappyPet extends JavaPlugin
         requestor.sendMessage("Now right-click on the animal");
     }
 
-    /*
-     * Release a tamed animal to unowned status
-     */
     private void resetOwner(Player requestor)
     {
         requestor.setMetadata(key, new FixedMetadataValue(this, ""));
         requestor.sendMessage("Now right-click on the animal");
     }
- 
-    /*
-     * ***************************************************************************
-     * 
-     * These functions are called from the Listener on a right-click
-     * 
-     * ***************************************************************************
-     */
 
     private void handleAngry(Player p, Entity ent)
     {

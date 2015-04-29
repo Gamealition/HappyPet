@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 import org.bukkit.event.HandlerList;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -54,15 +55,46 @@ public final class HappyPet extends JavaPlugin
         switch ( args[0].toLowerCase() )
         {
             case "owner":
-                onCommandOwner(sender, args); break;
+                return onCommandOwner(sender, args);
+            case "calm":
+                return onCommandCalm(sender, args);
             case "free":
-                onCommandFree(sender, args); break;
+                return onCommandFree(sender, args);
             case "wand":
-                onCommandWand(sender, args); break;
+                return onCommandWand(sender, args);
             case "reload":
-                onCommandReload(sender, args); break;
+                return onCommandReload(sender, args);
+            default:
+                return false;
         }
+    }
 
+    private boolean onCommandOwner(CommandSender sender, String[] args)
+    {
+        return false;
+    }
+
+    private boolean onCommandCalm(CommandSender sender, String[] args)
+    {
+        return false;
+    }
+
+    private boolean onCommandFree(CommandSender sender, String[] args)
+    {
+        return false;
+    }
+
+    private boolean onCommandWand(CommandSender sender, String[] args)
+    {
+        return false;
+    }
+
+    private boolean onCommandReload(CommandSender sender, String[] args)
+    {
+        onDisable();
+        onEnable();
+
+        sender.sendMessage("[HappyPet] Plugin reloaded");
         return true;
     }
 
@@ -91,7 +123,7 @@ public final class HappyPet extends JavaPlugin
         requestor.sendMessage("Now right-click on the animal");
     }
 
-    private void handleAngry(Player p, Entity ent)
+    void handleAngry(Player p, Entity ent)
     {
         Wolf dog = (Wolf) ent;
         AnimalTamer owner = dog.getOwner();
@@ -112,23 +144,6 @@ public final class HappyPet extends JavaPlugin
         }
     }
 
-    private void handleCart(Player p, Entity ent)
-    {
-        /*
-         * If in cart, eject it. We don't care about ownership
-    	 */
-        if (ent.isInsideVehicle()) ent.leaveVehicle();
-    }
-
-    private void handleTameableHealth(Player p, Entity ent)
-    {
-        // Only valid for animal's owner or an admin
-        Tameable T = (Tameable) ent;
-        if (T.isTamed())
-            if (T.getOwner() == p || p.hasPermission(admin)) handleHealth(p, ent);
-            else p.sendMessage("This animal is owned by " + T.getOwner().getName());
-    }
-
     private void handleHealth(Player p, Entity ent)
     {
         // restore health
@@ -142,7 +157,7 @@ public final class HappyPet extends JavaPlugin
         }
     }
 
-    private void reassign(Player p, Entity e, String newowner, Plugin context)
+    void reassign(Player p, Entity e, String newowner, Plugin context)
     {
         if (e.getType() != EntityType.WOLF && e.getType() != EntityType.OCELOT && e.getType() != EntityType.HORSE)
         {

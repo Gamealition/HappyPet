@@ -37,21 +37,9 @@ public final class HPPlayerInteractListener implements Listener
         {
             case WOLF:
                 happyPet.handleAngry(p, animal);
-                happyPet.handleCart(p, animal);
-                happyPet.handleTameableHealth(p, animal);
                 break;
             case OCELOT:
             case HORSE:
-                happyPet.handleCart(p, animal);
-                happyPet.handleTameableHealth(p, animal);
-                break;
-            case CHICKEN:
-            case SHEEP:
-            case COW:
-            case PIG:
-            case MUSHROOM_COW:
-                happyPet.handleCart(p, animal);
-                happyPet.handleHealth(p, animal);
                 break;
             default:
                 p.sendMessage("This is not a valid animal type. Try again.");

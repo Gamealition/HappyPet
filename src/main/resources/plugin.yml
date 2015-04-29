@@ -10,6 +10,7 @@ commands:
     description: Manages properties of pets
     usage: |
       • /<command> owner [player] - Gets (or sets) owner of a pet
+      • /<command> calm - Calms an angered pet wolf
       • /<command> free - Frees a pet into the wild
       • /<command> wand - Find out what the pet wand is set to
       • /<command> reload - Reloads config file
@@ -20,11 +21,13 @@ permissions:
       Gives all typical player permissions, which are:
       • happypet.owner
       • happypet.owner.change
+      • happypet.calm
       • happypet.free
       • happypet.wand
     children:
       happypet.owner: true
       happypet.owner.change: true
+      happypet.calm: true
       happypet.free: true
       happypet.wand: true
 
@@ -34,6 +37,8 @@ permissions:
       • happypet.owner
       • happypet.owner.change
       • happypet.owner.change.any
+      • happypet.calm
+      • happypet.calm.any
       • happypet.free
       • happypet.free.any
       • happypet.wand
@@ -42,6 +47,8 @@ permissions:
       happypet.owner: true
       happypet.owner.change: true
       happypet.owner.change.any: true
+      happypet.calm: true
+      happypet.calm.any: true
       happypet.free: true
       happypet.free.any: true
       happypet.wand: true
@@ -57,6 +64,14 @@ permissions:
 
   happypet.owner.change.any:
     description: Allows you to change the owner of any pet
+    default: op
+
+  happypet.calm:
+    description: Allows you to calm your angry pet wolf
+    default: op
+
+  happypet.calm.any:
+    description: Allows you to calm any angry pet wolf
     default: op
 
   happypet.free:

@@ -1,2 +1,2 @@
-# There is only one configuration parameter: wand material
-wand: arrow
+# Specifies what held item acts as a pet information wand
+wand: bone

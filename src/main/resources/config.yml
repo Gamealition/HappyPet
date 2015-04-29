@@ -1,2 +1,6 @@
-# Specifies what held item acts as a pet information wand
+# Specifies what held item acts as a pet information wand (default: bone)
 wand: bone
+
+# Whether horses should be unaffected by this plugin, e.g. if Stables is used for horse
+# management (default: false)
+ignoreHorses: false

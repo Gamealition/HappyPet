@@ -4,10 +4,73 @@ version: 1.1
 description: Manage properties of pets
 author: JohnGuru
 authors: [RoyCurtis]
+
 commands:
-  hdowner:
-    description: updates the Tameable's owner
-    usage: /<command> <playername>
-  hdfree:
-    description: resets the Tameable to unowned/wild condition
-    usage: /<command>
+  happydog:
+    description: Manages properties of pets
+    usage: |
+      • /<command> owner [player] - Gets (or sets) owner of a pet
+      • /<command> free - Frees a pet into the wild
+      • /<command> wand - Find out what the pet wand is set to
+      • /<command> reload - Reloads config file
+
+permissions:
+  happydog.player:
+    description: |
+      Gives all typical player permissions, which are:
+      • happydog.owner
+      • happydog.owner.change
+      • happydog.free
+      • happydog.wand
+    children:
+      happydog.owner: true
+      happydog.owner.change: true
+      happydog.free: true
+      happydog.wand: true
+
+  happydog.admin:
+    description: |
+      Gives all typical player and admin permissions, which are:
+      • happydog.owner
+      • happydog.owner.change
+      • happydog.owner.change.any
+      • happydog.free
+      • happydog.free.any
+      • happydog.wand
+      • happydog.reload
+    children:
+      happydog.owner: true
+      happydog.owner.change: true
+      happydog.owner.change.any: true
+      happydog.free: true
+      happydog.free.any: true
+      happydog.wand: true
+      happydog.reload: true
+
+  happydog.owner:
+    description: Allows you to get the owner of any pet
+    default: op
+
+  happydog.owner.change:
+    description: Allows you to change the owner of your pet
+    default: op
+
+  happydog.owner.change.any:
+    description: Allows you to change the owner of any pet
+    default: op
+
+  happydog.free:
+    description: Allows you to free your pet into the wild
+    default: op
+
+  happydog.free.any:
+    description: Allows you to free any pet into the wild
+    default: op
+
+  happydog.wand:
+    description: Allows you to use the pet information wand
+    default: op
+
+  happydog.reload:
+    description: Allows you to reload the config file
+    default: op

@@ -1,4 +1,4 @@
-package com.github.JohnGuru.HappyDog;
+package com.github.JohnGuru.happypet;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -17,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
-public final class HappyDog extends JavaPlugin
+public final class HappyPet extends JavaPlugin
 {
     public static Material wand;
     static final String admin = "animalhelper.admin";
@@ -26,8 +26,9 @@ public final class HappyDog extends JavaPlugin
     @Override
     public void onEnable()
     {
-        // process the configuration parameters
-        String mat = getConfig().getString("wand", "arrow");
+        saveDefaultConfig();
+
+        String mat = getConfig().getString("wand", "bone");
         wand = Material.matchMaterial(mat);
         if (wand == null)
         {
@@ -47,13 +48,6 @@ public final class HappyDog extends JavaPlugin
         saveConfig();
     }
 
-    /*
-     * Command handler
-     *
-     * We have three commands: cure,
-     * Prevents the jukebox from being deactivated when the chunk is unloaded
-     *
-     */
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         // Add more commands here

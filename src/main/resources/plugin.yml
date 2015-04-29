@@ -1,12 +1,12 @@
-name: HappyDog
-main: com.github.JohnGuru.HappyDog.HappyDog
+name: HappyPet
+main: com.github.JohnGuru.happypet.HappyPet
 version: 1.1
 description: Manage properties of pets
 author: JohnGuru
 authors: [RoyCurtis]
 
 commands:
-  happydog:
+  happypet:
     description: Manages properties of pets
     usage: |
       • /<command> owner [player] - Gets (or sets) owner of a pet
@@ -15,62 +15,62 @@ commands:
       • /<command> reload - Reloads config file
 
 permissions:
-  happydog.player:
+  happypet.player:
     description: |
       Gives all typical player permissions, which are:
-      • happydog.owner
-      • happydog.owner.change
-      • happydog.free
-      • happydog.wand
+      • happypet.owner
+      • happypet.owner.change
+      • happypet.free
+      • happypet.wand
     children:
-      happydog.owner: true
-      happydog.owner.change: true
-      happydog.free: true
-      happydog.wand: true
+      happypet.owner: true
+      happypet.owner.change: true
+      happypet.free: true
+      happypet.wand: true
 
-  happydog.admin:
+  happypet.admin:
     description: |
       Gives all typical player and admin permissions, which are:
-      • happydog.owner
-      • happydog.owner.change
-      • happydog.owner.change.any
-      • happydog.free
-      • happydog.free.any
-      • happydog.wand
-      • happydog.reload
+      • happypet.owner
+      • happypet.owner.change
+      • happypet.owner.change.any
+      • happypet.free
+      • happypet.free.any
+      • happypet.wand
+      • happypet.reload
     children:
-      happydog.owner: true
-      happydog.owner.change: true
-      happydog.owner.change.any: true
-      happydog.free: true
-      happydog.free.any: true
-      happydog.wand: true
-      happydog.reload: true
+      happypet.owner: true
+      happypet.owner.change: true
+      happypet.owner.change.any: true
+      happypet.free: true
+      happypet.free.any: true
+      happypet.wand: true
+      happypet.reload: true
 
-  happydog.owner:
+  happypet.owner:
     description: Allows you to get the owner of any pet
     default: op
 
-  happydog.owner.change:
+  happypet.owner.change:
     description: Allows you to change the owner of your pet
     default: op
 
-  happydog.owner.change.any:
+  happypet.owner.change.any:
     description: Allows you to change the owner of any pet
     default: op
 
-  happydog.free:
+  happypet.free:
     description: Allows you to free your pet into the wild
     default: op
 
-  happydog.free.any:
+  happypet.free.any:
     description: Allows you to free any pet into the wild
     default: op
 
-  happydog.wand:
+  happypet.wand:
     description: Allows you to use the pet information wand
     default: op
 
-  happydog.reload:
+  happypet.reload:
     description: Allows you to reload the config file
     default: op

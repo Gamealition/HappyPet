@@ -9,7 +9,7 @@ commands:
   happypet:
     description: Manages properties of pets
     usage: |
-      • /<command> owner [player] - Gets (or sets) owner of a pet
+      • /<command> owner [player] - Changes owner of a pet
       • /<command> calm - Calms an angered pet wolf
       • /<command> free - Frees a pet into the wild
       • /<command> wand - Find out what the pet wand is set to
@@ -20,13 +20,11 @@ permissions:
     description: |
       Gives all typical player permissions, which are:
       • happypet.owner
-      • happypet.owner.change
       • happypet.calm
       • happypet.free
       • happypet.wand
     children:
       happypet.owner: true
-      happypet.owner.change: true
       happypet.calm: true
       happypet.free: true
       happypet.wand: true
@@ -35,8 +33,7 @@ permissions:
     description: |
       Gives all typical player and admin permissions, which are:
       • happypet.owner
-      • happypet.owner.change
-      • happypet.owner.change.any
+      • happypet.owner.any
       • happypet.calm
       • happypet.calm.any
       • happypet.free
@@ -44,27 +41,21 @@ permissions:
       • happypet.wand
       • happypet.reload
     children:
-      happypet.owner: true
-      happypet.owner.change: true
-      happypet.owner.change.any: true
-      happypet.calm: true
+      happypet.owner.any: true
       happypet.calm.any: true
-      happypet.free: true
       happypet.free.any: true
       happypet.wand: true
       happypet.reload: true
 
   happypet.owner:
-    description: Allows you to get the owner of any pet
-    default: op
-
-  happypet.owner.change:
     description: Allows you to change the owner of your pet
     default: op
 
-  happypet.owner.change.any:
+  happypet.owner.any:
     description: Allows you to change the owner of any pet
     default: op
+    children:
+      happypet.owner: true
 
   happypet.calm:
     description: Allows you to calm your angry pet wolf
@@ -73,6 +64,8 @@ permissions:
   happypet.calm.any:
     description: Allows you to calm any angry pet wolf
     default: op
+    children:
+      happypet.calm: true
 
   happypet.free:
     description: Allows you to free your pet into the wild
@@ -81,6 +74,8 @@ permissions:
   happypet.free.any:
     description: Allows you to free any pet into the wild
     default: op
+    children:
+      happypet.free: true
 
   happypet.wand:
     description: Allows you to use the pet information wand

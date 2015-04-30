@@ -2,5 +2,5 @@
 wand: bone
 
 # Whether horses should be unaffected by this plugin, e.g. if Stables is used for horse
-# management (default: false)
+# management. Wand does not honor this. (default: false)
 ignoreHorses: false

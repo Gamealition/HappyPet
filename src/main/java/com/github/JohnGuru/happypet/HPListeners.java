@@ -50,30 +50,10 @@ public final class HPListeners implements Listener
         }
         else if ( player.hasMetadata(HPMetadata.OWNER_TARGET) )
             onPlayerOwner(player, animal);
+        else if ( player.hasMetadata(HPMetadata.FREE_TARGET) )
+            onPlayerFree(player, animal);
 
         HPMetadata.clearFrom(player, happyPet);
-
-//        List<MetadataValue> meta = player.getMetadata(key);
-//        if (!meta.isEmpty())
-//        {
-//            String giveto = meta.get(0).asString();
-//            Plugin plug = meta.get(0).getOwningPlugin();
-//            happyPet.reassign(player, animal, giveto, plug);
-//            player.removeMetadata(key, plug);
-//        }
-//        else switch (animal.getType())
-//        {
-//            case WOLF:
-//                happyPet.handleAngry(player, animal);
-//                break;
-//            case OCELOT:
-//            case HORSE:
-//                break;
-//            default:
-//                player.sendMessage("This is not a valid animal type. Try again.");
-//                break;
-//        }
-//         ev.setCancelled(true);
     }
 
     private void onPlayerCalm(Player player, Wolf wolf)
@@ -89,6 +69,35 @@ public final class HPListeners implements Listener
 
         wolf.setAngry(false);
         player.sendMessage("[HappyPet] That wolf is no longer angry");
+    }
+
+    private void onPlayerFree(Player player, Animals animal)
+    {
+        Tameable    tameable = (Tameable) animal;
+        AnimalTamer tamer    = tameable.getOwner();
+
+        if ( tamer == null || tamer != player )
+            if ( !player.hasPermission(HPPermissions.FREE_ANY) )
+            {
+                player.sendMessage("[HappyPet] You can only free your own pets");
+                return;
+            }
+
+        tameable.setOwner(null);
+
+        if (tameable instanceof Ocelot)
+        {
+            Ocelot ocelot = (Ocelot) tameable;
+            ocelot.setSitting(false);
+            ocelot.setCatType(Ocelot.Type.WILD_OCELOT);
+        }
+        else if (tameable instanceof Wolf)
+        {
+            Wolf wolf = (Wolf) tameable;
+            wolf.setSitting(false);
+        }
+
+        player.sendMessage("[HappyPet] You have freed that pet into the wild");
     }
 
     private void onPlayerOwner(Player player, Animals animal)

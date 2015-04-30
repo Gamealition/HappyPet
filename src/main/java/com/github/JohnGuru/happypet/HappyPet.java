@@ -119,9 +119,18 @@ public final class HappyPet extends JavaPlugin
 
     private boolean onCommandFree(CommandSender sender, String[] args)
     {
-        if ( !handlers.requirePlayer(sender) )
-            return false;
+        if (   !handlers.requirePlayer(sender)
+            || !handlers.requirePermission(sender, HPPermissions.FREE) )
+            return true;
 
+        Player source = (Player) sender;
+
+        // Clear metadata to avoid conflict with previous commands
+        // (e.g. if player does /owner, doesn't punch a pet, then does /free)
+        HPMetadata.clearFrom(source, this);
+        source.setMetadata(HPMetadata.FREE_TARGET, new FixedMetadataValue(this, null) );
+
+        sender.sendMessage("[HappyPet] Right-click the pet to free into the wild");
         return true;
     }
 
@@ -149,92 +158,4 @@ public final class HappyPet extends JavaPlugin
         sender.sendMessage("[HappyPet] Plugin reloaded");
         return true;
     }
-
-//    private void setOwner(Player requestor, String newowner)
-//    {
-//        if (!requestor.hasPermission(admin))
-//        {
-//            requestor.sendMessage("Not allowed (" + admin);
-//            return;
-//        }
-//        OfflinePlayer op = getServer().getOfflinePlayer(newowner);
-//        if (!op.isOnline() && !op.hasPlayedBefore())
-//        {
-//            requestor.sendMessage(newowner + ": " + " no such player");
-//            return;
-//        }
-//        requestor.removeMetadata(key, this);
-//        requestor.setMetadata(key, new FixedMetadataValue(this, newowner));
-//
-//        requestor.sendMessage("Now right-click on the animal");
-//    }
-//
-//    private void resetOwner(Player requestor)
-//    {
-//        requestor.setMetadata(key, new FixedMetadataValue(this, ""));
-//        requestor.sendMessage("Now right-click on the animal");
-//    }
-//
-//    void handleAngry(Player p, Entity ent)
-//    {
-//        Wolf dog = (Wolf) ent;
-//        AnimalTamer owner = dog.getOwner();
-//        if (owner == null)
-//        {
-//            p.sendMessage(ChatColor.RED + "This is a wild dog");
-//            return;
-//        }
-//        p.sendMessage("This dog is owned by " + owner.getName());
-//        if (p != owner && !p.hasPermission(admin))
-//        {
-//            return;
-//        }
-//        if (dog.isAngry())
-//        {
-//            dog.setAngry(false);
-//            p.sendMessage(ChatColor.GREEN + "This dog is now happy!");
-//        }
-//    }
-//
-//    void reassign(Player p, Entity e, String newowner, Plugin context)
-//    {
-//        if (e.getType() != EntityType.WOLF && e.getType() != EntityType.OCELOT && e.getType() != EntityType.HORSE)
-//        {
-//            p.sendMessage("You can only reassign dogs, cats, and horses.");
-//            return;
-//        }
-//        Tameable animal = (Tameable) e;
-//        if (newowner.length() > 0)
-//        {
-//            // Assigning a new owner
-//            OfflinePlayer owner = context.getServer().getOfflinePlayer(newowner);
-//            if (owner != null && (owner.hasPlayedBefore() || owner.isOnline()))
-//            {
-//                animal.setOwner(owner);
-//                p.sendMessage("Animal has been reassigned to " + animal.getOwner().getName());
-//            }
-//            else p.sendMessage("Invalid owner: " + newowner);
-//        }
-//        else
-//        {
-//    		/*
-//    		 * Freeing a previously tamed animal. The animal's owner can do this
-//    		 * or a user having animalhelper.admin permission
-//    		 */
-//            if (p.hasPermission(admin))
-//            {
-//                animal.setOwner(null);
-//                p.sendMessage("Animal has been released.");
-//            }
-//            else if (animal.isTamed()) if (animal.getOwner() == p)
-//            {
-//                animal.setOwner(null);
-//                p.sendMessage("Animal has been released.");
-//            }
-//            else p.sendMessage("This animal is owned by " + animal.getOwner().getName());
-//            else p.sendMessage("This animal is not tamed.");
-//        }
-//
-//        return;
-//    }
 }

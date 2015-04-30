@@ -14,7 +14,7 @@ Unlike other pet plugins, this plugin will **not** aim to:
 * Allow non-tameable animals such as sheep, cows or mobs to be kept as pets
 * Provide non-vanilla pet features such as multi-owner, attacks, pokeballs, etc
 * Provide difficult features such as pet summoning
-* Replicate vanilla features (e.g. collor color changing)
+* Replicate vanilla features (e.g. collar color changing or pet renaming)
 * Go beyond commands or wands for pet control (e.g. GUI)
 
 ## Permissions

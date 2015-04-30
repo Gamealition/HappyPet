@@ -41,7 +41,14 @@ public final class HPListeners implements Listener
         Animals animal = (Animals) ev.getRightClicked();
         Player  player = ev.getPlayer();
 
-        if ( player.hasMetadata(HPMetadata.OWNER_TARGET) )
+        if      ( player.hasMetadata(HPMetadata.CALM_TARGET) )
+        {
+            if (animal instanceof Wolf)
+                onPlayerCalm(player, (Wolf) animal);
+            else
+                return;
+        }
+        else if ( player.hasMetadata(HPMetadata.OWNER_TARGET) )
             onPlayerOwner(player, animal);
 
         HPMetadata.clearFrom(player, happyPet);
@@ -67,6 +74,21 @@ public final class HPListeners implements Listener
 //                break;
 //        }
 //         ev.setCancelled(true);
+    }
+
+    private void onPlayerCalm(Player player, Wolf wolf)
+    {
+        AnimalTamer tamer = wolf.getOwner();
+
+        if ( tamer == null || tamer != player )
+        if ( !player.hasPermission(HPPermissions.CALM_ANY) )
+        {
+            player.sendMessage("[HappyPet] You can only calm your own pets");
+            return;
+        }
+
+        wolf.setAngry(false);
+        player.sendMessage("[HappyPet] That wolf is no longer angry");
     }
 
     private void onPlayerOwner(Player player, Animals animal)

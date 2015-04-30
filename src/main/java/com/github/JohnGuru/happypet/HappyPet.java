@@ -102,9 +102,18 @@ public final class HappyPet extends JavaPlugin
 
     private boolean onCommandCalm(CommandSender sender, String[] args)
     {
-        if ( !handlers.requirePlayer(sender) )
-            return false;
+        if (   !handlers.requirePlayer(sender)
+            || !handlers.requirePermission(sender, HPPermissions.CALM) )
+            return true;
 
+        Player source = (Player) sender;
+
+        // Clear metadata to avoid conflict with previous commands
+        // (e.g. if player does /owner, doesn't punch a pet, then does /free)
+        HPMetadata.clearFrom(source, this);
+        source.setMetadata(HPMetadata.CALM_TARGET, new FixedMetadataValue(this, null) );
+
+        sender.sendMessage("[HappyPet] Right-click the wolf to calm down");
         return true;
     }
 

@@ -1,8 +1,6 @@
 package com.github.JohnGuru.happypet;
 
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Tameable;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -35,11 +33,19 @@ public final class HPListeners implements Listener
     @EventHandler
     public void onPlayerInteract(PlayerInteractEntityEvent ev)
     {
-//        Entity animal = ev.getRightClicked();
-//        Player player = ev.getPlayer();
-//
-//
-//
+        if      ( !(ev.getRightClicked() instanceof Tameable) )
+            return;
+        else if ( ev.getRightClicked() instanceof Horse && HappyPet.cfgIgnoreHorses )
+            return;
+
+        Animals animal = (Animals) ev.getRightClicked();
+        Player  player = ev.getPlayer();
+
+        if ( player.hasMetadata(HPMetadata.OWNER_TARGET) )
+            onPlayerOwner(player, animal);
+
+        HPMetadata.clearFrom(player, happyPet);
+
 //        List<MetadataValue> meta = player.getMetadata(key);
 //        if (!meta.isEmpty())
 //        {
@@ -60,6 +66,33 @@ public final class HPListeners implements Listener
 //                player.sendMessage("This is not a valid animal type. Try again.");
 //                break;
 //        }
-        // ev.setCancelled(true);
+//         ev.setCancelled(true);
+    }
+
+    private void onPlayerOwner(Player player, Animals animal)
+    {
+        Tameable    tameable = (Tameable) animal;
+        AnimalTamer tamer    = tameable.getOwner();
+
+        if ( tamer == null || tamer != player )
+        if ( !player.hasPermission(HPPermissions.OWNER_ANY) )
+        {
+            player.sendMessage("[HappyPet] You can only give away your own pets");
+            return;
+        }
+
+        Player target = (Player) player
+            .getMetadata(HPMetadata.OWNER_TARGET)
+            .get(0).value();
+
+        tameable.setOwner(target);
+
+        String msgFrom = String.format( "[HappyPet] You have given that pet %s to %s",
+            animal.getName(), target.getName() );
+        String msgTo   = String.format( "[HappyPet] %s has given you a pet %s",
+            player.getName(), animal.getName() );
+
+        player.sendMessage(msgFrom);
+        target.sendMessage(msgTo);
     }
 }

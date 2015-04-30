@@ -75,10 +75,10 @@ public class HPHandlers
         if (tamer != null) msg.add( "• Owner: "    + tamer.getName() );
         else               msg.add( "• Owner: <none>" );
 
+        msg.add( "• Health: "    + health + "/" + maxHealth );
         msg.add( "• Stage: "     + parseStage( animal.getAge() ) );
         msg.add( "• Age: "       + parseLived( animal.getTicksLived() ) );
         msg.add( "• Breedable: " + animal.canBreed() );
-        msg.add( "• Health: "    + health + "/" + maxHealth );
 
         if (animal instanceof Wolf)
         {

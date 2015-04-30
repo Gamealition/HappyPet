@@ -121,6 +121,11 @@ public final class HappyPet extends JavaPlugin
         if ( !handlers.requirePlayer(sender) )
             return false;
 
+        sender.sendMessage("[HappyPet] Infowand is set to: " + cfgWand);
+
+        if ( !sender.hasPermission(HPPermissions.WAND) )
+            sender.sendMessage("(You do not have permission to use the wand)");
+
         return true;
     }
 

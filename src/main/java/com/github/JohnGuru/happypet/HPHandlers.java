@@ -67,15 +67,13 @@ public class HPHandlers
         AnimalTamer tamer    = tameable.getOwner();
 
         String name      = animal.getName();
-        String nickname  = animal.getCustomName();
         String health    = DOUBLE_FMT.format( animal.getHealth() );
         String maxHealth = DOUBLE_FMT.format( animal.getMaxHealth() );
 
         msg.add("Infocard for " + name);
 
-        if (nickname != null) msg.add( "• Nickname: " + nickname );
-        if (tamer    != null) msg.add( "• Owner: "    + tamer.getName() );
-        else                  msg.add( "• Owner: <none>" );
+        if (tamer != null) msg.add( "• Owner: "    + tamer.getName() );
+        else               msg.add( "• Owner: <none>" );
 
         msg.add( "• Stage: "     + parseStage( animal.getAge() ) );
         msg.add( "• Age: "       + parseLived( animal.getTicksLived() ) );
@@ -105,16 +103,16 @@ public class HPHandlers
 
     public String parseStage(int age)
     {
-        age = -age / 20;
+        age = Math.abs(age) / 20;
 
         if (age == 0)
             return "Adult";
         else
-            return "Child (" + -age + " seconds until adult)";
+            return "Child (" + age + " seconds until adult)";
     }
 
     public String parseLived(int lived)
     {
-        return (lived / 20) + " seconds old";
+        return ( Math.abs(lived) / 20 ) + " seconds old";
     }
 }

@@ -41,7 +41,7 @@ public final class HPListeners implements Listener
         Animals animal = (Animals) ev.getRightClicked();
         Player  player = ev.getPlayer();
 
-        if      ( player.hasMetadata(HPMetadata.CALM_TARGET) )
+        if ( player.hasMetadata(HPMetadata.CALM_TARGET) )
         {
             if (animal instanceof Wolf)
                 onPlayerCalm(player, (Wolf) animal);
@@ -112,7 +112,7 @@ public final class HPListeners implements Listener
             return;
         }
 
-        Player target = (Player) player
+        AnimalTamer target = (AnimalTamer) player
             .getMetadata(HPMetadata.OWNER_TARGET)
             .get(0).value();
 
@@ -120,10 +120,17 @@ public final class HPListeners implements Listener
 
         String msgFrom = String.format( "[HappyPet] You have given that pet %s to %s",
             animal.getName(), target.getName() );
-        String msgTo   = String.format( "[HappyPet] %s has given you a pet %s",
-            player.getName(), animal.getName() );
 
         player.sendMessage(msgFrom);
-        target.sendMessage(msgTo);
+
+        // Make sure target is online and not same as giver
+        if (target instanceof Player && target != player)
+        {
+            Player toPlayer = (Player) target;
+            String msgTo    = String.format( "[HappyPet] %s has given you a pet %s",
+                player.getName(), animal.getName() );
+
+            toPlayer.sendMessage(msgTo);
+        }
     }
 }

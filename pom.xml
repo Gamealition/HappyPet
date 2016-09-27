@@ -43,6 +43,12 @@
             <id>spigot-snapshots</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/public/</url>
         </repository>
+        <!-- Local SSE-specific repository for non-Maven dependencies -->
+        <!-- See https://devcenter.heroku.com/articles/local-maven-dependencies -->
+        <repository>
+            <id>project.local</id>
+            <name>project</name>
+            <url>file:${project.basedir}/libs</url>
         </repository>
     </repositories>
 
@@ -51,12 +57,20 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <version>1.10.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
+        <!-- Replaces tokens like "${project.version}" in plugin.yml -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <!-- Specifies minimum Java version for compile and runtime -->
         <plugins>
             <plugin>

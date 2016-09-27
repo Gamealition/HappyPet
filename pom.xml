@@ -4,10 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Project properties -->
     <groupId>com.github.JohnGuru.happypet</groupId>
     <artifactId>HappyPet</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.10.2-1.2</version>
 
+
+    <!-- Project metadata -->
     <licenses>
         <license>
             <name>GPLv2</name>
@@ -17,30 +20,31 @@
     </licenses>
 
     <developers>
+        <!-- Original developer of HappyDog -->
         <developer>
             <name>JohnGuru</name>
             <email>jvalley6928@charter.net</email>
             <url>https://github.com/JohnGuru/</url>
         </developer>
-    </developers>
-
-    <contributors>
-        <contributor>
+        <!-- Developer of HappyPet -->
+        <developer>
             <name>Roy Curtis</name>
             <email>roy.adrian.curtis+github@gmail.com</email>
             <url>https://github.com/RoyCurtis/</url>
-        </contributor>
-    </contributors>
+        </developer>
+    </developers>
 
     <repositories>
-        <!-- For spigot/bukkit/craftbukkit snapshots -->
+        <!-- For Spigot/Bukkit/CraftBukkit -->
         <repository>
             <id>spigot-snapshots</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/public/</url>
+        </repository>
         </repository>
     </repositories>
 
     <dependencies>
+        <!-- Spigot + Bukkit API -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
@@ -50,6 +54,7 @@
     </dependencies>
 
     <build>
+        <!-- Specifies minimum Java version for compile and runtime -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

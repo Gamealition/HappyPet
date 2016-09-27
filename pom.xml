@@ -9,6 +9,9 @@
     <artifactId>HappyPet</artifactId>
     <version>1.10.2-1.2</version>
 
+    <description>
+        Allows players to better manage their pets
+    </description>
 
     <!-- Project metadata -->
     <licenses>

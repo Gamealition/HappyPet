@@ -1,4 +1,4 @@
-package com.github.JohnGuru.happypet;
+package happypet;
 
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;

@@ -2,7 +2,7 @@ name:        ${project.artifactId}
 version:     ${project.version}
 description: ${project.description}
 authors:     [JohnGuru, RoyCurtis]
-main:        com.github.JohnGuru.happypet.HappyPet
+main:        happypet.HappyPet
 
 commands:
   happypet:

@@ -44,8 +44,8 @@ tools:
 # COMMANDS - Allows management of pets through various commands
 commands:
   summon:
-    # Whether the /summon command works across worlds. If enabled, this is a security risk if you
-    # have creative gamemode worlds (default: false)
+    # Whether the `/happypet summon` command works across worlds. If enabled, this is a security
+    # risk if you have creative gamemode worlds (default: false)
     acrossWorlds: false
 
 

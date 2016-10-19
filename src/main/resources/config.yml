@@ -3,6 +3,10 @@
 # For item names: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
 # For creature names: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
 # Note that "HORSE" also includes donkeys and mules.
+# Terminology:
+# * "HORSE" - Includes donkeys and mules
+# * "tamed" - An animal tamed by vanilla means (has an owner in NBT data)
+# * "claimed" - An animal recorded and tracked by HappyPet's database
 
 config:
   # DO NOT CHANGE - Used to migrate config to later versions
@@ -23,16 +27,21 @@ pets:
 # OWNERSHIP - Allows players to claim and manage their pets
 ownership:
   # Maximum number of pets a player may own. Set to -1 for unlimited (default: -1)
-  max: -1
+  maximum: -1
   # Whether auto-claim ignores players in creative gamemode (default: true)
   ignoreCreative: true
-  # Whether wolves and ocelots are named when tamed; non-vanilla behavior (default: true)
-  nameOnTame: true
-  horses:
-    # Whether horses are claimed by saddling them (default: true)
-    claimOnSaddle: true
-    # Whether horses are claimed simply by riding on them; non-vanilla behavior (default: false)
-    claimOnRide: false
+  # Whether pets are auto-named when claiming them; non-vanilla behavior (default: true)
+  nameOnClaim: true
+  # Whether tamed pets should be untamed if unclaimed; non-vanilla behavior  (default: true)
+  autoUntame: true
+  # Whether pets are claimed by taming them (default: false)
+  claimOnTame: false
+  # Whether pets are claimed by manually naming them (default: true)
+  claimOnName: true
+  # Whether horses are claimed by mounting them; non-vanilla behavior (default: false)
+  claimOnRide: false
+  # Whether horses are claimed by saddling them; non-vanilla behavior (default: true)
+  claimOnSaddle: true
 
 
 # TOOLS - In-world tools used to interact with pets
@@ -80,17 +89,14 @@ recipes:
 # PROTECTION - Protects pets from various sources of damage
 #
 # Specify 'true' or 'false' to enable or disable the protection, respectively. 'unclaimed' refers to
-# animals that are not claimed. 'claimed' refers to animals that have an owner.
+# animals that are not claimed. 'claimed' refers to animals that have a HappyPet owner.
 protection:
 
   players:
     # Protect unclaimed pets against player damage (default: false)
     unclaimed: false
-    claimed:
-      # Protect claimed pets against damage from strangers (default: true)
-      fromStrangers: true
-      # Protect claimed pets against damage by their owners (default: false)
-      fromOwner: false
+    # Protect claimed pets against damage from non-owners (default: true)
+    claimed: true
 
   mobs:
     # Protect unclaimed pets against damage by other mobs and animals (default: false)
@@ -101,7 +107,7 @@ protection:
   # Suffocation protection is on by default. Mob AI is poorly designed and accidental suffocation
   # is considered a very common and obnoxious bug (especially with horses).
   suffocation:
-    # Protect unclaimed pets against suffocation (default: true)
-    unclaimed: true
+    # Protect unclaimed pets against suffocation (default: false)
+    unclaimed: false
     # Protect claimed pets against suffocation (default: true)
     claimed: true

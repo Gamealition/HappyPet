@@ -1,11 +1,12 @@
 package happypet.data;
 
-import com.avaje.ebean.validation.NotEmpty;
+import com.avaje.ebean.validation.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.UUID;
 
 @Entity
 @Table(name = "happypet_subowners")
@@ -13,7 +14,7 @@ public class HPSubOwner
 {
     @Id private int id;
 
-    @NotEmpty private String subOwnerUuid;
+    @NotNull private UUID subOwnerUuid;
 
     @ManyToOne(optional = false)
     private HPPet pet;
@@ -28,12 +29,12 @@ public class HPSubOwner
         this.id = id;
     }
 
-    public String getSubOwnerUuid()
+    public UUID getSubOwnerUuid()
     {
         return subOwnerUuid;
     }
 
-    public void setSubOwnerUuid(String subOwnerUuid)
+    public void setSubOwnerUuid(UUID subOwnerUuid)
     {
         this.subOwnerUuid = subOwnerUuid;
     }

@@ -8,11 +8,6 @@
 # * "tamed" - An animal tamed by vanilla means (has an owner in NBT data)
 # * "claimed" - An animal recorded and tracked by HappyPet's database
 
-config:
-  # DO NOT CHANGE - Used to migrate config to later versions
-  version: 1
-
-
 # PETS - Specify what pet types are handled by HappyPet
 pets:
   # Whether ocelots (or: cats, kittens) are handled (default: true)

@@ -13,8 +13,7 @@ public class Config
     private static final ItemStack ITEM_SADDLE  = new ItemStack(Material.SADDLE, 1);
     private static final ItemStack ITEM_NAMETAG = new ItemStack(Material.NAME_TAG, 1);
 
-    private Configuration config;
-    private short         version;
+    private FileConfiguration config;
 
     public final Pets pets = new Pets();
     public class Pets

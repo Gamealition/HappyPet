@@ -3,9 +3,11 @@ package happypet.util;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
+import static happypet.HappyPet.CONFIG;
 import static happypet.HappyPet.LOGGER;
 
 /** Static utility class for processing some config elements */
@@ -60,5 +62,19 @@ public class ConfigUtils
             LOGGER.warn("Could not parse recipe '%s': %s", key, e);
             return null;
         }
+    }
+
+    public static boolean isHandledAnimal(Entity entity)
+    {
+        if (entity instanceof Ocelot && CONFIG.pets.ocelots)
+            return true;
+        if (entity instanceof Wolf && CONFIG.pets.wolves)
+            return true;
+        if (entity instanceof Horse && CONFIG.pets.horses)
+            return true;
+        if (entity instanceof Llama && CONFIG.pets.llamas)
+            return true;
+
+        return false;
     }
 }

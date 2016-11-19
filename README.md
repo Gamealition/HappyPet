@@ -34,14 +34,16 @@ for full permission list.
 * `/happypet wand` - Find out what the pet wand to set to
 * `/happypet reload` - Reloads config.yml
 
-## Building
+# Building, debugging and debug logging
 
-1. Install Maven on your system
-    * Windows: https://maven.apache.org/download.cgi
-    * Linux: Install the `maven` package (e.g. `sudo apt-get install maven`)
-2. Clone this repository into a folder
-3. Inside the folder, execute `mvn clean package`
-4. Look in the new `target` folder for the built JAR file
+For instructions and screenshots on how to. . .
+
+* Compile this plugin from scratch
+* Build a JAR of this plugin
+* Debug this plugin on a server
+* Enable debug logging levels such as `FINE` and `FINER`
+
+. . .[please follow the linked guide on this Google document.](https://docs.google.com/document/d/1TTDXG7IZ9M0D2-rzbILAWg1CKjynHK8fNGxbf3W4wBk/view)
 
 ## License
 As HappyPet is a derivative of HappyDog by JohnGuru, HappyPet is licensed the same under
